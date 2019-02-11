@@ -1,39 +1,30 @@
 import React, { Component } from 'react';
-import './App.css';
-import LoginForm from './Components/LoginForm';
-import PullRequestItems from './Components/PullRequestItems';
-import ForkedItems from './Components/ForkedItems';
+import { LoginForm } from './Components/LoginForm';
+import { PullRequestItems } from './Components/PullRequestItems';
+import { ForkedItems } from './Components/ForkedItems';
 
 class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      userName: "Enter username",
+    state = {
+      userName: '',
       userEvents: [],
       userRepos: []
     }
-    this.handleInput = this.handleInput.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+
+  handleInput = (e) => {
+    this.setState({ userName: e.target.value });
   }
 
-  handleInput(event) {
-    const userInput = event.target.value;
-    this.setState({ userName: userInput });
-  }
-
-  handleSubmit(event) {
-      event.preventDefault();
+  handleSubmit = (e) => {
+      e.preventDefault();
       fetch(`https://api.github.com/users/${this.state.userName}/events`)
           .then(results => results.json())
           .then(results => {
               this.setState({ userEvents: results })
-              console.log(results)
           })
       fetch(`https://api.github.com/users/${this.state.userName}/repos`)
           .then(results => results.json())
           .then(results => {
               this.setState({ userRepos: results })
-              console.log(results)
           })
 }
 

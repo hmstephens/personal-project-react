@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 
-class LoginForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-
-        }   
-    }
-  
+export class LoginForm extends Component {
+    state = {}   
+    
     render() {
         return (
             <form onSubmit={this.props.handleSubmit}>
                 <input 
                     type="text" 
-                    placeholder={this.state.userName}
+                    placeholder="Enter username"
                     onChange={this.props.handleInput} 
                 />
                 <button>Submit</button>
@@ -21,5 +16,3 @@ class LoginForm extends Component {
         )
     }
 }
-export default LoginForm;
-
