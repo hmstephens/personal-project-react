@@ -1,25 +1,62 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import LoginForm from './Components/LoginForm';
+import PullRequestItems from './Components/PullRequestItems';
+import ForkedItems from './Components/ForkedItems';
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      userName: "Enter username",
+      userEvents: [],
+      userRepos: []
+    }
+    this.handleInput = this.handleInput.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleInput(event) {
+    const userInput = event.target.value;
+    this.setState({ userName: userInput });
+  }
+
+  handleSubmit(event) {
+      event.preventDefault();
+      fetch(`https://api.github.com/users/${this.state.userName}/events`)
+          .then(results => results.json())
+          .then(results => {
+              this.setState({ userEvents: results })
+              console.log(results)
+          })
+      fetch(`https://api.github.com/users/${this.state.userName}/repos`)
+          .then(results => results.json())
+          .then(results => {
+              this.setState({ userRepos: results })
+              console.log(results)
+          })
+}
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+          <LoginForm 
+            handleInput={this.handleInput} 
+            handleSubmit={this.handleSubmit} 
+          />
+          <ol>
+            <PullRequestItems 
+              userEvents={this.state.userEvents}
+              userName={this.state.userName}
+            />
+          </ol>
+          <ol>
+            <ForkedItems 
+              userRepos={this.state.userRepos}
+              userEvents={this.state.userEvents}
+              userName={this.state.userName}
+            />
+          </ol>
       </div>
     );
   }
