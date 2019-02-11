@@ -10,21 +10,29 @@ class PullRequestItems extends Component {
         }
     }
 
-    //Each of the pull requests should display the title
-    // of the pull request as a link, and link to that pull request.
-    // payload.pull_request.title
-    //payload.pull_request.html_url
+    //if there are none, make sure to show a message 
+    //saying that there are no recent pull request events 
+    // <h3>Error: {this.props.userName} has 0 Pull Request Events</h3>
+
+    // visual indicator: open, closed or merged
+    // -- payload.pull_request.state === open
+    // -- payload.pull-request.head.base.merged === true
+
     render() {
         const pullEvents = this.props.userEvents.filter(item => item.type === "PullRequestEvent")
         return (
             <div>
-                <h3>Pull Request Events for User: {this.props.userName}</h3>
+                {pullEvents.length > 0 ?
+                    <h3>{pullEvents.length} Pull Request Events for User: {this.props.userName}</h3> : 
+                    null}
+                
                 {pullEvents.map(item => (
-                    <a href={item.payload.pull_request.html_url}>
-                        <li key={item.id}>
+                    <li key={item.id}>
+                        {item.payload.pull_request.state}---
+                        <a href={item.payload.pull_request.html_url} key={item.id}>
                             {item.payload.pull_request.title}
-                        </li>
-                    </a>
+                        </a>  
+                    </li>
                 ))}
             </div>
         )

@@ -44,19 +44,19 @@ class App extends Component {
             handleInput={this.handleInput} 
             handleSubmit={this.handleSubmit} 
           />
-          <ol>
+          <ul>
             <PullRequestItems 
               userEvents={this.state.userEvents}
               userName={this.state.userName}
             />
-          </ol>
-          <ol>
+          </ul>
+          <ul>
             <ForkedItems 
               userRepos={this.state.userRepos}
               userEvents={this.state.userEvents}
               userName={this.state.userName}
             />
-          </ol>
+          </ul>
       </div>
     );
   }
