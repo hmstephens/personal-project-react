@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { LoginForm } from './Components/LoginForm';
 import { ForkedListItems } from './Components/ForkedListItems';
 import { PullListItems } from './Components/PullListItems';
+import { connect } from 'react-redux';
 
 class App extends Component {
   state = {
@@ -50,4 +51,5 @@ class App extends Component {
   }
 }
 
+connect();
 export default App;
