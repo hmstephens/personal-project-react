@@ -1,53 +1,50 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { LoginForm } from './Components/LoginForm';
-import { PullRequestItems } from './Components/PullRequestItems';
-import { ForkedItems } from './Components/ForkedItems';
+import { ForkedListItems } from './Components/ForkedListItems';
+import { PullListItems } from './Components/PullListItems';
 
 class App extends Component {
-    state = {
-      userName: '',
-      userEvents: [],
-      userRepos: []
-    }
+  state = {
+    userName: ''
+  };
 
-  handleInput = (e) => {
+  handleInput = e => {
     this.setState({ userName: e.target.value });
-  }
+    console.log(this.state.userName);
+  };
 
-  handleSubmit = (e) => {
-      e.preventDefault();
-      fetch(`https://api.github.com/users/${this.state.userName}/events`)
-          .then(results => results.json())
-          .then(results => {
-              this.setState({ userEvents: results })
-          })
-      fetch(`https://api.github.com/users/${this.state.userName}/repos`)
-          .then(results => results.json())
-          .then(results => {
-              this.setState({ userRepos: results })
-          })
-}
+  handleSubmit = e => {
+    e.preventDefault();
+  };
 
   render() {
     return (
       <div>
-          <LoginForm 
-            handleInput={this.handleInput} 
-            handleSubmit={this.handleSubmit} 
+        <BrowserRouter>
+          <Route
+            path="/"
+            render={props => (
+              <LoginForm
+                {...props}
+                handleInput={this.handleInput}
+                handleSubmit={this.handleSubmit}
+              />
+            )}
           />
-          <ul>
-            <PullRequestItems 
-              userEvents={this.state.userEvents}
-              userName={this.state.userName}
-            />
-          </ul>
-          <ul>
-            <ForkedItems 
-              userRepos={this.state.userRepos}
-              userEvents={this.state.userEvents}
-              userName={this.state.userName}
-            />
-          </ul>
+          <Route
+            path="/submitted-username"
+            render={props => (
+              <PullListItems {...props} userName={this.state.userName} />
+            )}
+          />
+          <Route
+            path="/submitted-username"
+            render={props => (
+              <ForkedListItems {...props} userName={this.state.userName} />
+            )}
+          />
+        </BrowserRouter>
       </div>
     );
   }
