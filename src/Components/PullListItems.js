@@ -10,7 +10,8 @@ export class PullListItems extends Component {
       .then(results => results.json())
       .then(results => {
         this.setState({ pullRequestEvents: results });
-      });
+      })
+      .catch(err => alert('Please enter a valid username.'));
   }
 
   render() {

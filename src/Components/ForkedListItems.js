@@ -10,7 +10,8 @@ export class ForkedListItems extends Component {
       .then(results => results.json())
       .then(results => {
         this.setState({ userRepos: results });
-      });
+      })
+      .catch(err => alert('Please enter a valid username.'));
   }
 
   render() {
